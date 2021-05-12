@@ -21,3 +21,6 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_subdirectory(queue)
 add_subdirectory(binarysearch)
+add_subdirectory(quicksort)
+add_subdirectory(insertsort)
+add_subdirectory(bubblesort)
