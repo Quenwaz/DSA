@@ -1,6 +1,6 @@
-#include <vector>
+#ifndef __quick_sort_included_
+#define __quick_sort_included_
 #include <algorithm>
-#include "common/defs.h"
 
 
 namespace sort
@@ -52,16 +52,4 @@ namespace sort
 }
 
 
-int main(int argc, char* argv[])
-{
-	std::vector<int> vecTest = {9, 0, 5, 1, 2, 3, 8, 41, 32, 113, 4, 8};
-	std::vector<int> vecTest1 = {5, 4, 3, 2, 1};
-	sort::quick_sort(vecTest.begin(), vecTest.end());
-	sort::quick_sort(vecTest1.begin(), vecTest1.end());
-	TEST(vecTest == std::vector<int>({0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113}));
-	TEST(vecTest != std::vector<int>({ 1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113 }));
-	TEST(vecTest1 == std::vector<int>({ 1, 2, 3, 4, 5 }));
-
-	getchar();
-	return 0;
-}
+#endif // __quick_sort_included_

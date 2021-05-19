@@ -38,6 +38,9 @@
 #define WHITE
 #endif
 
+#define PRINNT_TEST_FN() fprintf(stdout,BLUE "\n####################%s####################\n" NONE, __FUNCTION__)
+#define PRINNT_TEST_FN_MSG(msg) fprintf(stdout,BLUE "\n####################%s##########%s##########\n" NONE, __FUNCTION__, msg)
+
 #define TEST(expression) \
     if ((expression))\
     {\

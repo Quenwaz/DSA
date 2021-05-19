@@ -1,5 +1,7 @@
-#include <stdio.h>
-#include "common/defs.h"
+#ifndef _binary_search_included
+#define _binary_search_included
+#include <cstddef>
+
 
 template<typename T>
 int binary_search(T* array,size_t nLen, const T& target)
@@ -40,12 +42,4 @@ int binary_search(T* array,size_t nLen, const T& target)
 }
 
 
-
-int main(int argc, char* argv[])
-{
-	int test[5] = { 1, 2, 3, 4, 5 };
-	TEST(binary_search(test, 5, 2) == 1);
-	TEST(binary_search(test, 5, 8) == -1);
-
-	return 0;
-}
+#endif // _binary_search_included

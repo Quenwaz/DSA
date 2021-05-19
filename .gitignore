@@ -31,6 +31,8 @@
 *.out
 *.app
 /.vs
+/.vscode
+/build
 /build/x64-Debug (default)
 /CMakeLists.txt.user
 /CMakeSettings.json

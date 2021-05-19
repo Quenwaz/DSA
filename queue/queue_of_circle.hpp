@@ -3,7 +3,7 @@
 #include <algorithm>
 #include <stdexcept>
 #include <cstdint>
-#include "common/defs.h"
+
 
 /**
  * \brief 循环队列类定义
@@ -87,26 +87,3 @@ private:
     const bool m_bAutoPop;
 };
 
-
-
-int main(int argc, char *argv[])
-{
-    queue_circle<int, 3> test1;
-
-    TEST(test1.push(1) == true);
-    TEST(test1.push(2) == true);
-    TEST(test1.push(3) == true);
-    TEST(test1.push(4) == false);
-    TEST(test1.full() == true);
-    TEST(test1.exist(1) == true);
-    TEST(test1.exist(-1) == false);
-    TEST(test1.front() == 1);
-    TEST(test1.pop() == true);
-    TEST(test1.pop() == true);
-    TEST(test1.pop() == true);
-    TEST(test1.pop() == false);
-    TEST(test1.empty() == true);
-
-    getchar();
-    return 0;
-}
