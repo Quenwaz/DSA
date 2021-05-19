@@ -38,13 +38,23 @@ void test_binary_search()
 void test_sort()
 {
     PRINNT_TEST_FN();
-	std::vector<int> vecTest = { 9, 0, 5, 1, 2, 3, 8, 41, 32, 113, 4, 8 };
-	std::vector<int> vecTest1 = { 5, 4, 3, 2, 1 };
-	sort::insert_sort(vecTest.begin(), vecTest.end());
-	sort::insert_sort(vecTest1.begin(), vecTest1.end());
-	TEST(vecTest == std::vector<int>({ 0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113 }));
-	TEST(vecTest != std::vector<int>({ 1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113 }));
-	TEST(vecTest1 == std::vector<int>({ 1, 2, 3, 4, 5 }));
+#define TEST_SORT(sort_name)\
+{\
+    PRINNT_TEST_FN_MSG(#sort_name);\
+	std::vector<int> vecTest = { 9, 0, 5, 1, 2, 3, 8, 41, 32, 113, 4, 8 };\
+	std::vector<int> vecTest1 = { 5, 4, 3, 2, 1 };\
+	sort::sort_name(vecTest.begin(), vecTest.end());\
+	sort::sort_name(vecTest1.begin(), vecTest1.end());\
+	TEST(vecTest == std::vector<int>({ 0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113 }));\
+	TEST(vecTest != std::vector<int>({ 1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113 }));\
+	TEST(vecTest1 == std::vector<int>({ 1, 2, 3, 4, 5 }));\
+}
+
+    TEST_SORT(insert_sort);
+    TEST_SORT(bubble_sort);
+    TEST_SORT(quick_sort);
+
+#undef TEST_SORT
 }
 
 int main(int argc, char const *argv[])
