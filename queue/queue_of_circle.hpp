@@ -2,8 +2,12 @@
 #define _queue_data_struacture_h_
 #include <algorithm>
 #include <cstdint>
+#include <stdexcept>
 
 namespace data_structure{
+namespace queue{
+
+
 
 /**
  * \brief 循环队列类定义
@@ -87,6 +91,6 @@ private:
     const bool m_bAutoPop;
 };
 
-
+}
 }
 #endif // _queue_data_struacture_h_

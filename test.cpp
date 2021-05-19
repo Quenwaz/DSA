@@ -5,12 +5,13 @@
 #include "queue/queue_of_circle.hpp"
 #include "binarysearch/binarysearch.hpp"
 #include "sort/sort.hpp"
+#include "bst/bst.hpp"
 
 
 void test_queue()
 {
     PRINNT_TEST_FN();
-    data_structure::queue_circle<int, 3> test1;
+    data_structure::queue::queue_circle<int, 3> test1;
 
     TEST(test1.push(1) == true);
     TEST(test1.push(2) == true);
@@ -57,10 +58,31 @@ void test_sort()
 #undef TEST_SORT
 }
 
+void test_bst()
+{
+    PRINNT_TEST_FN();
+
+    auto comp = [](const int& lhs, const int& rhs)->short{
+        if (lhs == rhs) return 0;
+        else if(lhs < rhs) return -1;
+        else return 1;
+    };
+
+    int arr[] = {4, 2, 1, 7, 3, 8, 6};
+    auto root = data_structure::bst::insert_r(NULL, arr[0], comp);
+    for (size_t i = 1; i < (sizeof(arr)/ sizeof(arr[0])); ++i)
+    {
+        data_structure::bst::insert_r(root, arr[i], comp);
+    }
+
+    int nDebug = 0;
+}
+
 int main(int argc, char const *argv[])
 {
     test_queue();
     test_binary_search();
     test_sort();
+    test_bst();
     return 0;
 }
