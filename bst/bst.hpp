@@ -34,30 +34,55 @@ namespace bst
      * @param root 根节点
      * @param key 值
      * @param comp 比较函数指针
-     * @return bst_node* 返回插入的节点指针
+     * @return 是否插入成功
      * 
      * @note 函数指针返回值说明:
      *  - 0 表示相等 
      *  - 小于0 表示左操作符<右操作符
      *  - 大于0 表示左操作符>右操作符 
      */
-    bst_node* insert_r(bst_node* root, NodeKeyType key, KeyComp comp)
+    bool insert_r(bst_node** root, NodeKeyType key, KeyComp comp)
     {
-        if (root == nullptr)
+        if (root == nullptr || *root == nullptr)
         {
-            root = new_node(key, root);
-            return root;
+            *root = new_node(key, *root); 
+            return true;
         }
 
-        if (comp(key, root->Key) == 0){
-            return root;
-        }else if(comp(key, root->Key) < 0){
+        if (comp(key, (*root)->Key) == 0){
+            return false;
+        }else if(comp(key, (*root)->Key) < 0){
             // lhs < rhs
-            return insert_r(root->left_child, key, comp);
+            if (insert_r(&(*root)->left_child, key, comp)){
+                (*root)->left_child->parent = *root;
+                return true;
+            }
         }else{
             // lhs > rhs
-            return insert_r(root->right_child, key, comp);
+            if (insert_r(&(*root)->right_child, key, comp)){
+                (*root)->right_child->parent = *root;
+                return true;
+            }
         }
+
+        return false;
+    }
+
+    /**
+     * @brief 递归中序遍历二叉搜索树，有序 
+     * 
+     * @param root 二叉树根节点
+     * @param result 返回遍历的结果
+     */
+    void In_order_traversal_r(bst_node* root, std::vector<NodeKeyType>& result)
+    {
+        if (root == nullptr){
+            return;
+        }
+
+        In_order_traversal_r(root->left_child, result);
+        result.push_back(root->Key);
+        In_order_traversal_r(root->right_child, result);
     }
 
 
