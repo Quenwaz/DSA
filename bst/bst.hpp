@@ -23,9 +23,9 @@ namespace bst
         NodeKeyType Key;
     };
 
-    bst_node* new_node(NodeKeyType key, bst_node* parent)
+    bst_node* new_node(NodeKeyType key)
     {
-        return new bst_node{0, 0, parent, key};
+        return new bst_node{0, 0, 0, key};
     }
 
     /**
@@ -45,7 +45,7 @@ namespace bst
     {
         if (root == nullptr || *root == nullptr)
         {
-            *root = new_node(key, *root); 
+            *root = new_node(key); 
             return true;
         }
 
