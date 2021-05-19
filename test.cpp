@@ -10,7 +10,7 @@
 void test_queue()
 {
     PRINNT_TEST_FN();
-    queue_circle<int, 3> test1;
+    data_structure::queue_circle<int, 3> test1;
 
     TEST(test1.push(1) == true);
     TEST(test1.push(2) == true);
@@ -31,8 +31,8 @@ void test_binary_search()
 {
     PRINNT_TEST_FN();
     int test[5] = { 1, 2, 3, 4, 5 };
-	TEST(binary_search(test, 5, 2) == 1);
-	TEST(binary_search(test, 5, 8) == -1);
+	TEST(search::binary_search(test, 5, 2) == 1);
+	TEST(search::binary_search(test, 5, 8) == -1);
 }
 
 void test_sort()

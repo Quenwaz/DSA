@@ -2,6 +2,8 @@
 #define _binary_search_included
 #include <cstddef>
 
+namespace search{
+
 
 template<typename T>
 int binary_search(T* array,size_t nLen, const T& target)
@@ -40,6 +42,9 @@ int binary_search(T* array,size_t nLen, const T& target)
 
 	return -1;	
 }
+
+}
+
 
 
 #endif // _binary_search_included

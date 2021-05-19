@@ -1,4 +1,5 @@
-#include <algorithm>
+#ifndef _insert_sort_h_
+#define _insert_sort_h_
 #include <functional>
 
 namespace sort
@@ -24,4 +25,6 @@ namespace sort
 
 	}
 }
+
+#endif // _insert_sort_h_
 

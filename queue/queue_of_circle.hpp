@@ -1,9 +1,9 @@
-﻿#include <cstdlib>
-#include <cstdio>
+﻿#ifndef _queue_data_struacture_h_
+#define _queue_data_struacture_h_
 #include <algorithm>
-#include <stdexcept>
 #include <cstdint>
 
+namespace data_structure{
 
 /**
  * \brief 循环队列类定义
@@ -87,3 +87,6 @@ private:
     const bool m_bAutoPop;
 };
 
+
+}
+#endif // _queue_data_struacture_h_
