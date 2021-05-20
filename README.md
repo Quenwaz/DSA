@@ -13,5 +13,7 @@ Data Structures and Algorithms
 
 已完成的内容列表如下：
 
-[循环队列](https://github.com/Quenwaz/DSA/queue)
+- [x] [循环队列](https://github.com/Quenwaz/DSA/queue)
+
+- [x] [二叉搜索树](https://github.com/Quenwaz/DSA/bst)
 

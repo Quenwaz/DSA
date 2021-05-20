@@ -53,9 +53,9 @@
 #define TEST1(expression, msg) \
     if ((expression))\
     {\
-        fprintf(stdout,GREEN "PASS: "#expression ",msg:%s\n" NONE, msg);\
+        fprintf(stdout,GREEN "PASS: "#expression ", msg:%s\n" NONE, msg);\
     }else{\
-        fprintf(stdout,RED "FAILED: "#expression "msg:%s\n" NONE, msg);\
+        fprintf(stdout,RED "FAILED: "#expression ", msg:%s\n" NONE, msg);\
     }
 
 #endif // _i_defs_included

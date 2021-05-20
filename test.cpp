@@ -65,39 +65,77 @@ void test_bst()
 
     int arr[] = {4, 2, 1, 7, 3, 8, 6};
     data_structure::bst::bst_node *root = NULL;
+
+    const auto comp_less = [](const data_structure::bst::NodeKeyType &lhs, const data_structure::bst::NodeKeyType &rhs) -> short {
+        if (lhs == rhs)
+            return 0;
+        else if (std::less<data_structure::bst::NodeKeyType>()(lhs, rhs))
+            return -1;
+        else
+            return 1;
+    };
+
+    const auto comp_greater = [](const data_structure::bst::NodeKeyType &lhs, const data_structure::bst::NodeKeyType &rhs) -> short {
+        if (lhs == rhs)
+            return 0;
+        else if (std::greater<data_structure::bst::NodeKeyType>()(lhs, rhs))
+            return -1;
+        else
+            return 1;
+    };
+
 #define build_bst(root, fnComp)\
 {\
-    const auto comp = [](const data_structure::bst::NodeKeyType &lhs, const data_structure::bst::NodeKeyType &rhs) -> short {\
-        if (lhs == rhs)\
-            return 0;\
-        else if (fnComp<data_structure::bst::NodeKeyType>()(lhs, rhs))\
-            return -1;\
-        else\
-            return 1;\
-    };\
-\
-    data_structure::bst::insert_r(&root, arr[0], comp);\
+    data_structure::bst::insert_r(&root, arr[0], fnComp);\
     for (size_t i = 1; i < (sizeof(arr) / sizeof(arr[0])); ++i)\
     {\
-        data_structure::bst::insert_r(&root, arr[i], comp);\
+        data_structure::bst::insert_r(&root, arr[i], fnComp);\
     }\
 }
 
     // 构建 左 < 根 < 右 的二叉搜索树
-    build_bst(root,std::less);
+    build_bst(root,comp_less);
     std::vector<data_structure::bst::NodeKeyType> result;
     // 递归中序遍历
     In_order_traversal_r(root, result);
-    TEST(result == std::vector<data_structure::bst::NodeKeyType>({1, 2, 3, 4, 6, 7, 8}));
+    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({1, 2, 3, 4, 6, 7, 8}), "中序遍历");
+
+    // BFS
+    result.clear();
+    data_structure::bst::bfs(root, result);
+    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({4, 2, 7, 1, 3, 6, 8}), "宽度优先搜素");
+    
+    // 查找
+    data_structure::bst::bst_node* p_find = nullptr;
+    data_structure::bst::find_r(&p_find, root, 7, comp_less);
+    TEST1(p_find->Key == 7, "查找为7");
+    TEST1(p_find->left_child->Key == 6, "左子树为7");
+
+    // 删除节点
+    data_structure::bst::remove_at(&root, 2, comp_less);
+    data_structure::bst::find_r(&p_find, root, 2, comp_less);
+    TEST1(p_find == NULL, "检测删除情况");
+
+    // free
+    data_structure::bst::free_r(root);
 
     // 构建 左 > 根 > 右 的二叉搜索树
     root = NULL;
-    build_bst(root,std::greater);
+    build_bst(root,comp_greater);
     result.clear();
     // 递归中序遍历
     In_order_traversal_r(root, result);
-    TEST(result == std::vector<data_structure::bst::NodeKeyType>({8, 7, 6, 4, 3, 2, 1}));
+    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({8, 7, 6, 4, 3, 2, 1}), "中序遍历");
+
+    // BFS
+    result.clear();
+    data_structure::bst::bfs(root, result);
+    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({4,7, 2, 8, 6, 3, 1}), "宽度优先搜素");
+
+    // free
+    data_structure::bst::free_r(root);
 }
+
 
 int main(int argc, char const *argv[])
 {
