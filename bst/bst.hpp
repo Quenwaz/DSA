@@ -1,6 +1,7 @@
 #ifndef __binary_search_tree_included_
 #define __binary_search_tree_included_
 #include <queue>
+#include <stack>
 
 
 namespace data_structure{
@@ -72,6 +73,13 @@ namespace bst
         }
 
     }
+
+    /**
+     * @brief 找到二叉树中最大最小结点  
+     * 
+     * @param root 根节点指针
+     * @return std::pair<bst_node**, bst_node**>  first->最小  second->最大
+     */
     std::pair<bst_node**, bst_node**> find_minmax_r(bst_node* root)
     {
         if (root == nullptr){
@@ -85,10 +93,19 @@ namespace bst
         return ret;
     }
 
-    bool remove_at(bst_node** root, const NodeKeyType& key, KeyComp comp)
+    /**
+     * @brief 删除指定值的结点
+     * 
+     * @param root 根节点
+     * @param key key值
+     * @param comp 比较函数
+     * @return true 删除成功
+     * @return false 不存在删除失败
+     */
+    bool remove_at(bst_node* root, const NodeKeyType& key, KeyComp comp)
     {
         bst_node* pfind = nullptr;
-        if (!find_r(&pfind, *root, key, comp)){
+        if (!find_r(&pfind, root, key, comp)){
             return false;
         }
 
@@ -159,15 +176,47 @@ namespace bst
      * @param root 二叉树根节点
      * @param result 返回遍历的结果
      */
-    void In_order_traversal_r(bst_node* root, std::vector<NodeKeyType>& result)
+    void in_order_traversal_r(bst_node* root, std::vector<NodeKeyType>& result)
     {
         if (root == nullptr){
             return;
         }
 
-        In_order_traversal_r(root->left_child, result);
+        in_order_traversal_r(root->left_child, result);
         result.push_back(root->Key);
-        In_order_traversal_r(root->right_child, result);
+        in_order_traversal_r(root->right_child, result);
+    }
+
+    /**
+     * @brief 非递归中序遍历二叉搜索树，有序 
+     * 
+     * @param root 二叉树根节点
+     * @param result 返回遍历的结果
+     */
+    void in_order_traversal(bst_node* root, std::vector<NodeKeyType>& result)
+    {
+        if (root == nullptr){
+            return;
+        }
+
+        std::stack<bst_node*> stack_bst;
+        stack_bst.push(root);
+        bool visit_leftchild = true;
+        for (;!stack_bst.empty();){
+            auto pNode = stack_bst.top();
+            if (visit_leftchild && pNode->left_child != nullptr){
+                stack_bst.push(pNode->left_child);
+                continue;
+            }
+            stack_bst.pop();
+            if (pNode->right_child != nullptr){
+                stack_bst.push(pNode->right_child);
+                visit_leftchild = true;
+            }
+            else 
+                visit_leftchild = false;
+            result.push_back(pNode->Key);
+        }
     }
 
     /**

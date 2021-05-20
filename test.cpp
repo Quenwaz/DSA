@@ -97,7 +97,7 @@ void test_bst()
     build_bst(root,comp_less);
     std::vector<data_structure::bst::NodeKeyType> result;
     // 递归中序遍历
-    In_order_traversal_r(root, result);
+    in_order_traversal(root, result);
     TEST1(result == std::vector<data_structure::bst::NodeKeyType>({1, 2, 3, 4, 6, 7, 8}), "中序遍历");
 
     // BFS
@@ -112,7 +112,7 @@ void test_bst()
     TEST1(p_find->left_child->Key == 6, "左子树为7");
 
     // 删除节点
-    data_structure::bst::remove_at(&root, 2, comp_less);
+    data_structure::bst::remove_at(root, 2, comp_less);
     data_structure::bst::find_r(&p_find, root, 2, comp_less);
     TEST1(p_find == NULL, "检测删除情况");
 
@@ -124,7 +124,7 @@ void test_bst()
     build_bst(root,comp_greater);
     result.clear();
     // 递归中序遍历
-    In_order_traversal_r(root, result);
+    in_order_traversal(root, result);
     TEST1(result == std::vector<data_structure::bst::NodeKeyType>({8, 7, 6, 4, 3, 2, 1}), "中序遍历");
 
     // BFS
