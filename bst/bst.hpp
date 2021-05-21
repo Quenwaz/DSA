@@ -2,7 +2,7 @@
 #define __binary_search_tree_included_
 #include <queue>
 #include <stack>
-
+#include <cstdio>
 
 namespace data_structure{
 namespace bst
@@ -31,7 +31,7 @@ namespace bst
     }
 
     /**
-     * @brief 后序递归遍历删除链表二叉树
+     * @brief 递归后序遍历删除链表二叉树
      * @param root 根节点
      * 
      */
@@ -43,9 +43,45 @@ namespace bst
 
         free_r(root->left_child);
         free_r(root->right_child);
-        
         delete root;
         root = nullptr;
+    }
+
+
+
+    /**
+     * @brief 非递归后序遍历删除链表二叉树
+     * @param root 根节点
+     * 
+     */
+    void free(bst_node* root)
+    {
+        if (nullptr == root){
+            return;
+        }
+        
+        std::stack<bst_node**> stack_bst;
+        stack_bst.push(&root);
+        for(;!stack_bst.empty();){
+            auto pNode = stack_bst.top();
+            if ((*pNode)->left_child != nullptr){
+                stack_bst.push(&(*pNode)->left_child);
+            }
+            else if ((*pNode)->right_child != nullptr){
+                stack_bst.push(&(*pNode)->right_child);
+            }else{
+                stack_bst.pop();
+                void* will_be_delete = (*pNode);
+                if ((*pNode)->father != nullptr){
+                    if ((*pNode)->father->left_child == (*pNode)){
+                        (*pNode)->father->left_child = nullptr;
+                    }else{
+                        (*pNode)->father->right_child = nullptr;
+                    }
+                }
+                delete will_be_delete;
+            }
+        }
     }
 
     /**
@@ -118,12 +154,16 @@ namespace bst
         }else{
             auto min_max = find_minmax_r((pfind)->left_child);
             (*min_max.second)->right_child = (pfind)->right_child;
+            (pfind)->right_child->father = (*min_max.second);
             (pfind)->right_child = nullptr;
 
             if (pfind->father->left_child == pfind){
                 pfind->father->left_child= (pfind)->left_child;
-            }else
+                (pfind)->left_child->father = pfind->father;
+            }else{
                 pfind->father->right_child= (pfind)->left_child;
+                (pfind)->left_child->father = pfind->father;
+            }
         }
 
         delete willbefree;

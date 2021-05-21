@@ -117,7 +117,7 @@ void test_bst()
     TEST1(p_find == NULL, "检测删除情况");
 
     // free
-    data_structure::bst::free_r(root);
+    data_structure::bst::free(root);
 
     // 构建 左 > 根 > 右 的二叉搜索树
     root = NULL;
