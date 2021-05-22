@@ -111,6 +111,42 @@ namespace bst
     }
 
     /**
+     * @brief 非递归查找指定key值
+     * 
+     * @param root 根节点   
+     * @param key key值
+     * @param comp 比较函数指针
+     * @return const bst_node* 返回节点指针
+     */
+    bool find(bst_node** pfind, bst_node* root, const NodeKeyType& key, KeyComp comp)
+    {
+        if (root == nullptr){
+            *pfind = nullptr;
+            return false;
+        }
+
+        std::stack<bst_node*> stack_bst;
+        stack_bst.push(root);
+        for(;!stack_bst.empty();){
+            auto pNode = stack_bst.top();
+            if (comp(key, pNode->Key) == 0){
+                *pfind = pNode;
+                return true;
+            }
+
+            if (comp(key, pNode->Key) < 0){
+                if (pNode->left_child != nullptr)
+                    stack_bst.push(pNode->left_child);
+            
+            }else{
+                if (pNode->right_child != nullptr)
+                    stack_bst.push(pNode->right_child);
+            }
+
+        }
+    }
+
+    /**
      * @brief 找到二叉树中最大最小结点  
      * 
      * @param root 根节点指针

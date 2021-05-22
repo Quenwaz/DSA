@@ -107,7 +107,7 @@ void test_bst()
     
     // 查找
     data_structure::bst::bst_node* p_find = nullptr;
-    data_structure::bst::find_r(&p_find, root, 7, comp_less);
+    data_structure::bst::find(&p_find, root, 7, comp_less);
     TEST1(p_find->Key == 7, "查找为7");
     TEST1(p_find->left_child->Key == 6, "左子树为7");
 
