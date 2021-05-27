@@ -30,6 +30,7 @@ add_subdirectory(queue)
 add_subdirectory(binarysearch)
 add_subdirectory(sort)
 add_subdirectory(bst)
+add_subdirectory(heap)
 
 
 # set(${PROJECT_NAME}_LIBRARIES queue)
