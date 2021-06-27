@@ -4,7 +4,7 @@
 #include <cstdint>
 #include <stdexcept>
 
-namespace data_structure{
+namespace dsa::ds{
 namespace queue{
 
 

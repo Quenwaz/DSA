@@ -5,7 +5,8 @@
 # COMPILE_TYPE 0 编译exe目标  1 编译静态库 2 编译动态库
 function(__compile_target TARGET_NAME SRC_PATH COMPILE_TYPE)
 	message(STATUS "--------------begin compile ${TARGET_NAME}----------------------")
-	
+	message(STATUS "SRC_PATH=${SRC_PATH}")
+
 	if(ARGC EQUAL 4)
 		set(NORECURSE ${ARGV3})
 	endif(ARGC EQUAL 4)
@@ -13,10 +14,14 @@ function(__compile_target TARGET_NAME SRC_PATH COMPILE_TYPE)
 	if(NORECURSE)
 		file(GLOB ${TARGET_NAME}_SRC "${SRC_PATH}/*.cpp" "${SRC_PATH}/*.cc" "${SRC_PATH}/*.h" "${SRC_PATH}/*.hpp")
 	else(NORECURSE)
+		message(STATUS "Search source file is recurse")
 		file(GLOB_RECURSE ${TARGET_NAME}_SRC "${SRC_PATH}/*.cpp" "${SRC_PATH}/*.cc" "${SRC_PATH}/*.h" "${SRC_PATH}/*.hpp")
 	endif(NORECURSE)
 	
-	
+	foreach(source ${${TARGET_NAME}_SRC})
+		string(REGEX REPLACE "(.*)/.*" "\\1" dir ${source})
+		list(APPEND ${TARGET_NAME}_INCLUDES ${dir})
+	endforeach(source ${${TARGET_NAME}_SRC})
 
 	if(COMPILE_TYPE EQUAL 0)
 		add_executable(${TARGET_NAME} ${${TARGET_NAME}_SRC})
@@ -54,15 +59,15 @@ endfunction(__compile_target TARGET_NAME SRC_PATH)
 
 
 macro(compile_to_exe TARGET_NAME SRC_PATH)
-	__compile_target(${TARGET_NAME} ${SRC_PATH} 0 ARGN)
+	__compile_target(${TARGET_NAME} ${SRC_PATH} 0 ${ARGN})
 endmacro(compile_to_exe)
 
 
 macro(compile_to_static_library TARGET_NAME SRC_PATH)
-	__compile_target(${TARGET_NAME} ${SRC_PATH} 1 ARGN)
+	__compile_target(${TARGET_NAME} ${SRC_PATH} 1 ${ARGN})
 endmacro(compile_to_static_library)
 
 
 macro(compile_to_dynamic_library TARGET_NAME SRC_PATH)
-	__compile_target(${TARGET_NAME} ${SRC_PATH} 2 ARGN)
+	__compile_target(${TARGET_NAME} ${SRC_PATH} 2 ${ARGN})
 endmacro(compile_to_dynamic_library)

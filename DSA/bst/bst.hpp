@@ -4,7 +4,9 @@
 #include <stack>
 #include <cstdio>
 
-namespace data_structure{
+namespace dsa{
+
+namespace ds{
 namespace bst
 {
 
@@ -324,7 +326,7 @@ namespace bst
 
 
 } // namespace bst
-} // namespace data_structure
+} // namespace ds
     
-
+} // namespace dsa
 #endif // __binary_search_tree_included_

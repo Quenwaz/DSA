@@ -2,7 +2,7 @@
 #define _insert_sort_h_
 #include <functional>
 
-namespace sort
+namespace dsa::alg::sort
 {
 	template <typename ForwardIterator, typename Pred = std::less<typename ForwardIterator::value_type>>
 	void insert_sort(ForwardIterator beg, ForwardIterator end, Pred pred = std::less<typename ForwardIterator::value_type>())

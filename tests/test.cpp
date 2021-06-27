@@ -1,18 +1,18 @@
 #include <cstdlib>
 #include <vector>
 
-#include "common/defs.h"
-#include "common/utils.h"
-#include "queue/queue_of_circle.hpp"
-#include "binarysearch/binarysearch.hpp"
-#include "sort/sort.hpp"
-#include "bst/bst.hpp"
-#include "heap/heap.hpp"
+#include "DSA/common/defs.h"
+#include "DSA/common/utils.h"
+#include "DSA/queue/queue_of_circle.hpp"
+#include "DSA/binarysearch/binarysearch.hpp"
+#include "DSA/sort/sort.hpp"
+#include "DSA/bst/bst.hpp"
+#include "DSA/heap/heap.hpp"
 
 void test_queue()
 {
     PRINNT_TEST_FN();
-    data_structure::queue::queue_circle<int, 3> test1;
+    dsa::ds::queue::queue_circle<int, 3> test1;
 
     TEST(test1.push(1) == true);
     TEST(test1.push(2) == true);
@@ -33,8 +33,8 @@ void test_binary_search()
 {
     PRINNT_TEST_FN();
     int test[5] = {1, 2, 3, 4, 5};
-    TEST(search::binary_search(test, 5, 2) == 1);
-    TEST(search::binary_search(test, 5, 8) == -1);
+    TEST(dsa::alg::search::binary_search(test, 5, 2) == 1);
+    TEST(dsa::alg::search::binary_search(test, 5, 8) == -1);
 }
 
 void test_sort()
@@ -45,8 +45,8 @@ void test_sort()
         PRINNT_TEST_FN_MSG(#sort_name);                                              \
         std::vector<int> vecTest = {9, 0, 5, 1, 2, 3, 8, 41, 32, 113, 4, 8};         \
         std::vector<int> vecTest1 = {5, 4, 3, 2, 1};                                 \
-        sort::sort_name(vecTest.begin(), vecTest.end());                             \
-        sort::sort_name(vecTest1.begin(), vecTest1.end());                           \
+        dsa::alg::sort::sort_name(vecTest.begin(), vecTest.end());                             \
+        dsa::alg::sort::sort_name(vecTest1.begin(), vecTest1.end());                           \
         TEST(vecTest == std::vector<int>({0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113})); \
         TEST(vecTest != std::vector<int>({1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113})); \
         TEST(vecTest1 == std::vector<int>({1, 2, 3, 4, 5}));                         \
@@ -64,21 +64,21 @@ void test_bst()
     PRINNT_TEST_FN();
 
     int arr[] = {4, 2, 1, 7, 3, 8, 6};
-    data_structure::bst::bst_node *root = NULL;
+    dsa::ds::bst::bst_node *root = NULL;
 
-    const auto comp_less = [](const data_structure::bst::NodeKeyType &lhs, const data_structure::bst::NodeKeyType &rhs) -> short {
+    const auto comp_less = [](const dsa::ds::bst::NodeKeyType &lhs, const dsa::ds::bst::NodeKeyType &rhs) -> short {
         if (lhs == rhs)
             return 0;
-        else if (std::less<data_structure::bst::NodeKeyType>()(lhs, rhs))
+        else if (std::less<dsa::ds::bst::NodeKeyType>()(lhs, rhs))
             return -1;
         else
             return 1;
     };
 
-    const auto comp_greater = [](const data_structure::bst::NodeKeyType &lhs, const data_structure::bst::NodeKeyType &rhs) -> short {
+    const auto comp_greater = [](const dsa::ds::bst::NodeKeyType &lhs, const dsa::ds::bst::NodeKeyType &rhs) -> short {
         if (lhs == rhs)
             return 0;
-        else if (std::greater<data_structure::bst::NodeKeyType>()(lhs, rhs))
+        else if (std::greater<dsa::ds::bst::NodeKeyType>()(lhs, rhs))
             return -1;
         else
             return 1;
@@ -86,38 +86,38 @@ void test_bst()
 
 #define build_bst(root, fnComp)\
 {\
-    data_structure::bst::insert_r(&root, arr[0], fnComp);\
+    dsa::ds::bst::insert_r(&root, arr[0], fnComp);\
     for (size_t i = 1; i < (sizeof(arr) / sizeof(arr[0])); ++i)\
     {\
-        data_structure::bst::insert_r(&root, arr[i], fnComp);\
+        dsa::ds::bst::insert_r(&root, arr[i], fnComp);\
     }\
 }
 
     // 构建 左 < 根 < 右 的二叉搜索树
     build_bst(root,comp_less);
-    std::vector<data_structure::bst::NodeKeyType> result;
+    std::vector<dsa::ds::bst::NodeKeyType> result;
     // 递归中序遍历
     in_order_traversal(root, result);
-    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({1, 2, 3, 4, 6, 7, 8}), "中序遍历");
+    TEST1(result == std::vector<dsa::ds::bst::NodeKeyType>({1, 2, 3, 4, 6, 7, 8}), "中序遍历");
 
     // BFS
     result.clear();
-    data_structure::bst::bfs(root, result);
-    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({4, 2, 7, 1, 3, 6, 8}), "宽度优先搜素");
+    dsa::ds::bst::bfs(root, result);
+    TEST1(result == std::vector<dsa::ds::bst::NodeKeyType>({4, 2, 7, 1, 3, 6, 8}), "宽度优先搜素");
     
     // 查找
-    data_structure::bst::bst_node* p_find = nullptr;
-    data_structure::bst::find(&p_find, root, 7, comp_less);
+    dsa::ds::bst::bst_node* p_find = nullptr;
+    dsa::ds::bst::find(&p_find, root, 7, comp_less);
     TEST1(p_find->Key == 7, "查找为7");
     TEST1(p_find->left_child->Key == 6, "左子树为7");
 
     // 删除节点
-    data_structure::bst::remove_at(root, 2, comp_less);
-    data_structure::bst::find_r(&p_find, root, 2, comp_less);
+    dsa::ds::bst::remove_at(root, 2, comp_less);
+    dsa::ds::bst::find_r(&p_find, root, 2, comp_less);
     TEST1(p_find == NULL, "检测删除情况");
 
     // free
-    data_structure::bst::free(root);
+    dsa::ds::bst::free(root);
 
     // 构建 左 > 根 > 右 的二叉搜索树
     root = NULL;
@@ -125,21 +125,21 @@ void test_bst()
     result.clear();
     // 递归中序遍历
     in_order_traversal(root, result);
-    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({8, 7, 6, 4, 3, 2, 1}), "中序遍历");
+    TEST1(result == std::vector<dsa::ds::bst::NodeKeyType>({8, 7, 6, 4, 3, 2, 1}), "中序遍历");
 
     // BFS
     result.clear();
-    data_structure::bst::bfs(root, result);
-    TEST1(result == std::vector<data_structure::bst::NodeKeyType>({4,7, 2, 8, 6, 3, 1}), "宽度优先搜素");
+    dsa::ds::bst::bfs(root, result);
+    TEST1(result == std::vector<dsa::ds::bst::NodeKeyType>({4,7, 2, 8, 6, 3, 1}), "宽度优先搜素");
 
     // free
-    data_structure::bst::free_r(root);
+    dsa::ds::bst::free_r(root);
 }
 
 void test_heap()
 {
     PRINNT_TEST_FN();
-    CMinHeap minHeap(5);
+    dsa::ds::CMinHeap minHeap(5);
     // 退化成单链表
     for (size_t i = 1;i < 6; ++i)
         minHeap.insert(i);
@@ -152,7 +152,7 @@ void test_heap()
     TEST1(minHeap[4] == 5, "最小堆插入验证1");
 
     int test2[] ={5, 2, 6, 9,3,1};
-    CMinHeap minHeap2(test2, sizeof(test2)/sizeof(test2[0]));
+    dsa::ds::CMinHeap minHeap2(test2, sizeof(test2)/sizeof(test2[0]));
     for(size_t i =0;i < minHeap2.size(); ++i){
         printf("%d ", minHeap2[i]);
     }

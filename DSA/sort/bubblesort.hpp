@@ -2,7 +2,7 @@
 #define __bubble_sort_included
 #include <functional>
 
-namespace sort
+namespace dsa::alg::sort
 {
 	template <typename ForwardIterator, typename Pred = std::less<typename ForwardIterator::value_type>>
 	void bubble_sort(ForwardIterator beg, ForwardIterator end, Pred pred = std::less<typename ForwardIterator::value_type>())

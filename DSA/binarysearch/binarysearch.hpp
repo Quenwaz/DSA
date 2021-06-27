@@ -2,6 +2,9 @@
 #define _binary_search_included
 #include <cstddef>
 
+namespace dsa::alg{
+
+
 namespace search{
 
 
@@ -45,6 +48,7 @@ int binary_search(T* array,size_t nLen, const T& target)
 
 }
 
+}
 
 
 #endif // _binary_search_included

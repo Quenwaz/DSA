@@ -13,7 +13,7 @@
 #include <cstddef>
 #include <stdexcept>
 
-
+namespace dsa::ds{
 class CMinHeap
 {
 private:
@@ -357,4 +357,5 @@ bool CMinHeap::empty() const
     return this->size() == 0;
 }
 
+}
 #endif // _h_heap_inclued__

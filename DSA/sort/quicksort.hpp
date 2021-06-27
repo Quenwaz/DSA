@@ -3,7 +3,7 @@
 #include <algorithm>
 
 
-namespace sort
+namespace dsa::alg::sort
 {
 	namespace  __internal
 	{

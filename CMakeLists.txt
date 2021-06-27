@@ -25,13 +25,9 @@ if(UNIX)
 endif(UNIX)
 
 
-
-add_subdirectory(queue)
-add_subdirectory(binarysearch)
-add_subdirectory(sort)
-add_subdirectory(bst)
-add_subdirectory(heap)
+add_subdirectory(DSA)
+add_subdirectory(tests)
 
 
 # set(${PROJECT_NAME}_LIBRARIES queue)
-compile_to_exe(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR} 1 NORECURSE)
+# compile_to_exe(${PROJECT_NAME} ${CMAKE_CURRENT_SOURCE_DIR} 1 NORECURSE)
