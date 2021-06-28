@@ -58,12 +58,12 @@
         fprintf(stdout,RED "FAILED: "#expression ", msg:%s\n" NONE, msg);\
     }
 
-#define TEST_RESULT_DETAIL(expression,file,line,msg) \
+#define TEST_RESULT_DETAIL(expression,file,line,case, test, msg) \
     if ((expression))\
     {\
-        fprintf(stdout,GREEN "PASS: "#expression ", msg:%s\n" NONE, msg);\
+        fprintf(stdout,GREEN "[%s/%s] PASS\n" NONE, case, test);\
     }else{\
-        fprintf(stdout,RED "FAILED: "#expression ", msg:%s [%s(%d)]\n" NONE, msg, file, line);\
+        fprintf(stdout,RED "[%s/%s] FAILED: "#expression ", msg:%s [%s(%d)]\n" NONE, case, test, msg, file, line);\
     }
 
 #define ALL_PASSED(testsize) fprintf(stdout,GREEN "\n%d Test all passed.\n" NONE, testsize)

@@ -20,7 +20,3 @@ TEST(test_queue, t1)
     ASSERT_TRUE(test1.pop() == false);
     ASSERT_TRUE(test1.empty() == true);
 }
-
-
-
-

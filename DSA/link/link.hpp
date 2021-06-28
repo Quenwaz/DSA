@@ -1,7 +1,9 @@
 #ifndef _h_link_incluede__
 #define _h_link_incluede__
 #include <stddef.h>
+#include <cstdio>
 
+namespace dsa::ds{
 template <typename _Tp>
 struct LinkNode{
     _Tp value;
@@ -29,7 +31,6 @@ private:
 template <class _Tp> Link<_Tp>::Link()
     : root_(nullptr), curpos_(nullptr), size_(0)
 {
-
 }
 
 template <class _Tp> Link<_Tp>::~Link()
@@ -74,6 +75,7 @@ template <class _Tp> void Link<_Tp>::pop_back()
 
 template <class _Tp> void Link<_Tp>::push_back(const _Tp& val)
 {
+    
     LinkNode<_Tp>* node = new LinkNode<_Tp>();
     node->next = nullptr;
     node->value = val;
@@ -84,9 +86,10 @@ template <class _Tp> void Link<_Tp>::push_back(const _Tp& val)
         this->curpos_ = this->root_;
     }
 
-    this->curpos_->next_ = node;
+    this->curpos_->next = node;
+    this->curpos_ = node;
     ++this->size_;
 }
 
-
+}
 #endif // _h_link_incluede__

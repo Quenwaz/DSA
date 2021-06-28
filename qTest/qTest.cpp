@@ -1,13 +1,11 @@
 #include <memory>
 #include <stack>
+#include "DSA/link/link.hpp"
 #include "qTest.hpp"
 #include "defs.h"
 
-
-
 namespace global_variable{
-    static std::allocator<std::unique_ptr<qtest::TestInfo>> gAlloc;
-    static std::stack<std::unique_ptr<qtest::TestInfo>> gTestInfos;
+    static dsa::ds::Link<std::shared_ptr<qtest::TestInfo>> gTestInfos=dsa::ds::Link<std::shared_ptr<qtest::TestInfo>>();
 }
 
 
@@ -25,7 +23,14 @@ qtest::TestInfo::TestInfo(const char* casename, const char* testname, qtest::Cod
 void qtest::TestInfo::Run()
 {
     this->test_->TestBody();
-    TEST_RESULT_DETAIL(this->test_->reault_, this->location_.file, this->location_.line, this->test_->iss_.str())
+    TEST_RESULT_DETAIL(
+        this->test_->reault_, 
+        this->location_.file, 
+        this->location_.line, 
+        this->testcasename_,
+        this->testname_,
+        this->test_->iss_.str().c_str())
+
     if (this->test_->shutdown_){
         exit(1);
     }
@@ -33,32 +38,34 @@ void qtest::TestInfo::Run()
 
 qtest::TestInfo* const qtest::internal::MakeRegisterTestInfo(const char* testcasename, const char* testname, CodeLocation location, QTest* test)
 {
-    auto testInfo = std::make_unique<qtest::TestInfo>(testcasename, testname, location,test);
-    
-    if(global_variable::gTestInfos.empty()){
-        global_variable::gTestInfos = std::stack<std::unique_ptr<qtest::TestInfo>>(global_variable::gAlloc);
-    }
-    global_variable::gTestInfos.push(std::move(testInfo));
-    fprintf(stderr, "size: %d\n", global_variable::gAlloc.max_size());
-    fprintf(stderr, "global_variable::gTestInfos：%0X, %d\n", &global_variable::gTestInfos, global_variable::gTestInfos.size());
-    return global_variable::gTestInfos.top().get();
+    auto testInfo = std::make_shared<qtest::TestInfo>(testcasename, testname, location,test);
+    global_variable::gTestInfos.push_back(testInfo);
+    return global_variable::gTestInfos.back().get();
 }
 
 void run_test()
 {
-    std::unique_ptr<qtest::TestInfo> testinfo = std::move(global_variable::gTestInfos.top());
-    global_variable::gTestInfos.pop();
+    auto testinfo = global_variable::gTestInfos.back();
+    global_variable::gTestInfos.pop_back();
     testinfo->Run();
 }
 
 
-
-int main(int argc, char const *argv[])
-{
-    fprintf(stderr, "global_variable::gTestInfos：%0X, %d\n", &global_variable::gTestInfos, global_variable::gTestInfos.size());
+__attribute__((constructor)) void before_main()  
+{  
     const size_t sz_test = global_variable::gTestInfos.size();
     if (sz_test > 0)
         run_test();
     ALL_PASSED(sz_test);
+}
+
+__attribute__((destructor)) void after_main()  
+{  
+
+}
+
+int main(int argc, char const *argv[])
+{
+
     return 0;
 }
