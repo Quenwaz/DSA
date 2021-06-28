@@ -5,7 +5,7 @@ function(iaq_test test_name)
 
     add_executable(${TEST_EXECUTABLE} ${TEST_SOURCE})
     # target_include_directories(${TEST_EXECUTABLE} PRIVATE ${PROJECT_SOURCE_DIR}/include)
-    target_link_libraries(${TEST_EXECUTABLE} ${PROJECT_NAME})
+    target_link_libraries(${TEST_EXECUTABLE} ${PROJECT_NAME} qTest)
     add_test(${test_name} ${TEST_EXECUTABLE})
 endfunction()
 

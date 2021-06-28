@@ -41,7 +41,7 @@
 #define PRINNT_TEST_FN() fprintf(stdout,BLUE "\n####################%s####################\n" NONE, __FUNCTION__)
 #define PRINNT_TEST_FN_MSG(msg) fprintf(stdout,BLUE "####################%s[%s]####################\n" NONE, __FUNCTION__, msg)
 
-#define TEST(expression) \
+#define TEST_RESULT(expression) \
     if ((expression))\
     {\
         fprintf(stdout,GREEN "PASS: "#expression "\n" NONE);\
@@ -50,12 +50,22 @@
     }
 
 
-#define TEST1(expression, msg) \
+#define TEST_RESULT1(expression, msg) \
     if ((expression))\
     {\
         fprintf(stdout,GREEN "PASS: "#expression ", msg:%s\n" NONE, msg);\
     }else{\
         fprintf(stdout,RED "FAILED: "#expression ", msg:%s\n" NONE, msg);\
     }
+
+#define TEST_RESULT_DETAIL(expression,file,line,msg) \
+    if ((expression))\
+    {\
+        fprintf(stdout,GREEN "PASS: "#expression ", msg:%s\n" NONE, msg);\
+    }else{\
+        fprintf(stdout,RED "FAILED: "#expression ", msg:%s [%s(%d)]\n" NONE, msg, file, line);\
+    }
+
+#define ALL_PASSED(testsize) fprintf(stdout,GREEN "\n%d Test all passed.\n" NONE, testsize)
 
 #endif // _i_defs_included
