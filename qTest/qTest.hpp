@@ -15,20 +15,24 @@ struct CodeLocation {
   int line;
 };
 
+struct ExpressionResult{
+    std::string expression;
+    std::string msg;
+    bool success;
+    bool stop;
+    int line;
+};
+
 class TestInfo;
 class QTest{
 public:
-    QTest(): reault_(true), shutdown_(false){}
+    QTest(){}
     virtual void TestBody() = 0;
-    void on_failure();
-    void shutdown(){this->shutdown_=true;}
     friend class TestInfo;
 protected:
     void set_last_expression();
 protected:
-    bool reault_;
-    bool shutdown_;
-    std::vector<std::pair<std::string, std::string>> expression_;
+    std::vector<ExpressionResult> expression_;
     std::ostringstream iss_;
 };
 
@@ -39,7 +43,7 @@ public:
     TestInfo();
     TestInfo(const char* casename, const char* testname, CodeLocation loc, QTest* test);
 
-    void Run();
+    bool Run();
 private:
     const char* const testcasename_;
     const char* const testname_;
@@ -71,35 +75,34 @@ void QTEST_TEST_CLASS_NAME_(casename, test)::TestBody()
 
 #define EXPECT_TRUE(expression)\
 this->set_last_expression();\
-expression_.push_back({#expression, ""});\
-if ((expression));\
-else {on_failure();}this->iss_
+expression_.push_back({#expression, "", (expression), false, __LINE__});\
+this->iss_
 
 #define EXPECT_FALSE(expression)\
 this->set_last_expression();\
-expression_.push_back({"!"#expression, ""});\
-if (!(expression));\
-else {on_failure();}this->iss_
+expression_.push_back({#expression, "", !(expression), false, __LINE__});\
+this->iss_
 
 #define ASSERT_TRUE(expression)\
-expression_.push_back({#expression, ""});\
-if ((expression));\
-else {on_failure();shutdown();}
+if ((expression))\
+    expression_.push_back({#expression, "", true, false, __LINE__});\
+else expression_.push_back({#expression, "", false, true, __LINE__})
 
 #define ASSERT_FALSE(expression)\
-expression_.push_back({"!"#expression, ""});\
-if (!(expression));\
-else {on_failure();shutdown();}
+if (!(expression))\
+    expression_.push_back({"!"#expression, "", true, false, __LINE__});\
+else expression_.push_back({"!"#expression, "", false, true, __LINE__})
 
 #define ASSERT_EQ(value, expression)\
-expression_.push_back({#value"=="#expression, ""});\
-if ((value) == (expression));\
-else {on_failure();shutdown();}
+if ((value) == (expression))\
+expression_.push_back({#value"=="#expression, "", true, false, __LINE__});\
+else expression_.push_back({#value"=="#expression, "", false, true, __LINE__})
 
 #define EXPECT_EQ(value, expression)\
 this->set_last_expression();\
-expression_.push_back({#value"=="#expression, ""});\
-if ((value) == (expression));\
-else {on_failure();}this->iss_
+if ((value) == (expression))\
+expression_.push_back({#value"=="#expression, "", true, false, __LINE__});\
+else expression_.push_back({#value"=="#expression, "", false, false, __LINE__});\
+this->iss_
 
 #endif // _q_test_included__

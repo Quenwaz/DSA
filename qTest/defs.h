@@ -66,6 +66,9 @@
         fprintf(stdout,RED "[%s/%s] FAILED: "#expression ", msg:%s [%s(%d)]\n" NONE, case, test, msg, file, line);\
     }
 
-#define ALL_PASSED(testsize) fprintf(stdout,GREEN "\n%d Test all passed.\n" NONE, testsize)
+#define ALL_PASSED(alltest, failed)\
+if (failed)\
+    fprintf(stdout,RED "\n%d tests succeeded %d, failed %d.\n" NONE, alltest, alltest-failed, failed);\
+else fprintf(stdout,GREEN "\n%d tests succeeded %d, failed %d.\n" NONE, alltest, alltest-failed, failed)
 
 #endif // _i_defs_included

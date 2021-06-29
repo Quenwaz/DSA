@@ -9,14 +9,13 @@ TEST(test_sort, t1)
         std::vector<int> vecTest1 = {5, 4, 3, 2, 1};                                 \
         dsa::alg::sort::sort_name(vecTest.begin(), vecTest.end());                             \
         dsa::alg::sort::sort_name(vecTest1.begin(), vecTest1.end());                           \
-        ASSERT_TRUE(vecTest == std::vector<int>({0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113})); \
-        ASSERT_TRUE(vecTest != std::vector<int>({1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113})); \
-        ASSERT_TRUE(vecTest1 == std::vector<int>({1, 2, 3, 4, 5}));                         \
+        EXPECT_TRUE(vecTest == std::vector<int>({0, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113})) << #sort_name; \
+        EXPECT_TRUE(vecTest != std::vector<int>({1, 1, 2, 3, 4, 5, 8, 8, 9, 32, 41, 113}))<< #sort_name; \
+        EXPECT_TRUE(vecTest1 == std::vector<int>({1, 2, 3, 4, 5}))<< #sort_name;                         \
     }
-
     TEST_SORT(insert_sort);
     TEST_SORT(bubble_sort);
     TEST_SORT(quick_sort);
-
+    TEST_SORT(merge_sort);
 #undef TEST_SORT
 }
