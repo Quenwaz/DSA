@@ -3,6 +3,7 @@
 #include <string>
 #include <sstream>
 #include <memory>
+#include <vector>
 
 namespace qtest{
 
@@ -23,9 +24,12 @@ public:
     void shutdown(){this->shutdown_=true;}
     friend class TestInfo;
 protected:
+    void set_last_expression();
+protected:
     bool reault_;
     bool shutdown_;
-    std::istringstream iss_;
+    std::vector<std::pair<std::string, std::string>> expression_;
+    std::ostringstream iss_;
 };
 
 
@@ -42,7 +46,6 @@ private:
     const CodeLocation location_;
     std::unique_ptr<QTest> test_;
 };
-
 
 
 namespace internal{
@@ -67,26 +70,35 @@ qtest::internal::MakeRegisterTestInfo(#casename, #test, qtest::CodeLocation(__FI
 void QTEST_TEST_CLASS_NAME_(casename, test)::TestBody()
 
 #define EXPECT_TRUE(expression)\
+this->set_last_expression();\
+expression_.push_back({#expression, ""});\
 if ((expression));\
 else {on_failure();}this->iss_
 
 #define EXPECT_FALSE(expression)\
+this->set_last_expression();\
+expression_.push_back({"!"#expression, ""});\
 if (!(expression));\
 else {on_failure();}this->iss_
 
 #define ASSERT_TRUE(expression)\
+expression_.push_back({#expression, ""});\
 if ((expression));\
 else {on_failure();shutdown();}
 
 #define ASSERT_FALSE(expression)\
+expression_.push_back({"!"#expression, ""});\
 if (!(expression));\
 else {on_failure();shutdown();}
 
 #define ASSERT_EQ(value, expression)\
+expression_.push_back({#value"=="#expression, ""});\
 if ((value) == (expression));\
 else {on_failure();shutdown();}
 
 #define EXPECT_EQ(value, expression)\
+this->set_last_expression();\
+expression_.push_back({#value"=="#expression, ""});\
 if ((value) == (expression));\
 else {on_failure();}this->iss_
 

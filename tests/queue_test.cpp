@@ -3,7 +3,6 @@
 
 TEST(test_queue, t1)
 {
-
     dsa::ds::queue::queue_circle<int, 3> test1;
 
     ASSERT_TRUE(test1.push(1)==true);

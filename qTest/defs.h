@@ -61,7 +61,7 @@
 #define TEST_RESULT_DETAIL(expression,file,line,case, test, msg) \
     if ((expression))\
     {\
-        fprintf(stdout,GREEN "[%s/%s] PASS\n" NONE, case, test);\
+        fprintf(stdout,GREEN "[%s/%s] PASSED %s\n" NONE, case, test, msg);\
     }else{\
         fprintf(stdout,RED "[%s/%s] FAILED: "#expression ", msg:%s [%s(%d)]\n" NONE, case, test, msg, file, line);\
     }

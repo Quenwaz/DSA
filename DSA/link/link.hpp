@@ -1,7 +1,6 @@
 #ifndef _h_link_incluede__
 #define _h_link_incluede__
 #include <stddef.h>
-#include <cstdio>
 
 namespace dsa::ds{
 template <typename _Tp>
