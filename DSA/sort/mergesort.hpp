@@ -36,7 +36,6 @@ namespace dsa::alg::sort
                 ++iterr;
             }
 
-            utils::print_container(arraytmp.begin(), arraytmp.end());
             for (size_t i = 0;i < arraytmp.size(); ++beg, ++i){
                 *beg = arraytmp.at(i);
             }
