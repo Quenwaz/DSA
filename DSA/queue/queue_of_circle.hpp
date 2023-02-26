@@ -38,7 +38,7 @@ public:
     {
         return m_nRear == m_nFront;
     }
-
+ 
     bool full() const
     {
         return (m_nRear + 1) % m_nCapacity == m_nFront;
