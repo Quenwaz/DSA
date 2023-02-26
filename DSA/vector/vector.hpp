@@ -128,7 +128,7 @@ template<class T>
 const T& Vector<T>::operator[](size_t pos) const
 {
     if (pos >= size_){
-        throw std::exception("out of range");
+        throw std::out_of_range("out of range");
     }
 
     return dataptr_[pos];
