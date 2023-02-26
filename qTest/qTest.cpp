@@ -28,7 +28,7 @@ bool qtest::TestInfo::Run()
     this->test_->set_last_expression();
 
     bool all_success = true;
-    fprintf(stderr, WHITE "[%s] %s (%s)\n"NONE, this->testcasename_, this->testname_, this->location_.file.c_str());
+    fprintf(stderr, WHITE "\n%s(%s) (%s)\n"NONE, this->testcasename_, this->testname_, this->location_.file.c_str());
     for (auto expression: this->test_->expression_)
     {
         if (expression.success)

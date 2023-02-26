@@ -68,7 +68,7 @@
 
 #define ALL_PASSED(alltest, failed)\
 if (failed)\
-    fprintf(stdout,RED "\n%d tests succeeded %d, failed %d.\n" NONE, alltest, alltest-failed, failed);\
-else fprintf(stdout,GREEN "\n%d tests succeeded %d, failed %d.\n" NONE, alltest, alltest-failed, failed)
+    fprintf(stdout,RED "\n%d tests, %d succeeded, %d failed.\n" NONE, alltest, alltest-failed, failed);\
+else fprintf(stdout,GREEN "\n%d tests, %d succeeded, %d failed.\n" NONE, alltest, alltest-failed, failed)
 
 #endif // _i_defs_included

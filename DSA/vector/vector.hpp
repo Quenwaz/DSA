@@ -1,7 +1,7 @@
 #ifndef _h_vector_incluede__
 #define _h_vector_incluede__
 #include <cstddef>
-#include <exception>
+#include <stdexcept>
 
 namespace dsa::ds{
 
@@ -83,12 +83,15 @@ void Vector<T>::pop_back()
 template<class T>
 void Vector<T>::resize(size_t size)
 {
-    if (size <= 0){
+    if (size <= 0 || size == size_){
         return;
     }
-
+    
+    T* __tmp = new T[size]{0};
+    for (size_t i = 0;i < size_; ++i)
+        __tmp[i] = dataptr_[i];
     delete []dataptr_;
-    dataptr_ = new T[size]{0};
+    dataptr_ = __tmp;
     capacity_ = size;
     size_ = size;
 }
@@ -115,6 +118,21 @@ void Vector<T>::clear()
 }
 
 template<class T>
+void Vector<T>::shrift_to_fit()
+{
+    if (size_ == capacity_){
+        return;
+    }
+
+    T* __tmp = new T[size_]{0};
+    for (size_t i = 0;i < size_; ++i)
+        __tmp[i] = dataptr_[i];
+    delete []dataptr_;
+    dataptr_ = __tmp;
+    capacity_ = size_;
+}
+
+template<class T>
 T& Vector<T>::at(size_t pos)
 {
     if (pos >= size_){
@@ -138,7 +156,7 @@ const T& Vector<T>::operator[](size_t pos) const
 template<class T>
 bool Vector<T>::remove(size_t pos)
 {
-    if (pos >= size_){
+    if (size_ == 0 || pos >= size_ || pos < 0){
         return false;
     }
 
