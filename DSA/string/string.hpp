@@ -7,8 +7,6 @@ namespace dsa::ds
 {
     class String: public Vector<char>
     {
-    private:
-        /* data */
     public:
         String(/* args */);
         String(const String& inst);
@@ -18,6 +16,7 @@ namespace dsa::ds
         ~String();
 
     public:
+        int find(const char* input);
         int find(const String& input);
         const char* c_str() const;
     };

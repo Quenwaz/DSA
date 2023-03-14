@@ -32,8 +32,7 @@ String::String(const char* psz)
         ++len;
     }
     psz-=len;
-
-    this->reserve(len);
+    this->reserve(len + 1);
     memcpy(dataptr_, psz, len);
     size_ = len;
 }
@@ -54,21 +53,28 @@ const char* String::c_str() const
 }
 
 
-int String::find(const String &input)
+int String::find(const char* input)
 {
-    size_t i = 0, j = 0;
-    for (; i < size_ && j < input.size(); ++i, ++j){
-        if (input[j] != dataptr_[i]){
+    size_t i = 0;
+    decltype(input) beg = input;
+    decltype(input) pos = input;
+    for (; i < size_ && *(pos) != '\0' ; ++i, ++pos){
+        if ((*pos) != dataptr_[i]){
             if (i > 0)
-                i = i - j + 1;
-            j = 0;
+                i = i - (pos- beg) + 1;
+            pos = beg;
             
         }
     }
 
-    if (j < input.size()){
+    if (*(pos) != '\0'){
         return -1; 
     }
 
-    return i - input.size();
+    return i - (pos- beg);
+}
+
+int String::find(const String &input)
+{
+    return this->find(input.c_str());
 }
