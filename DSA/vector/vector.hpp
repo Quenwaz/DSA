@@ -9,7 +9,7 @@ namespace dsa::ds{
 template <class T>
 class Vector
 {
-private:
+protected:
     size_t size_;
     size_t capacity_;
     T* dataptr_;
@@ -24,6 +24,7 @@ public:
     void push_back(const T& val);
     void pop_back();
     void resize(size_t size);
+    void reserve(size_t size);
     size_t size() const;
     bool empty() const;
     void clear();
@@ -78,6 +79,21 @@ template<class T>
 void Vector<T>::pop_back()
 {
     remove(size_ - 1);
+}
+
+template<class T>
+void Vector<T>::reserve(size_t size)
+{
+    if (size <= 0 || size <= capacity_){
+        return;
+    }
+
+    T* __tmp = new T[size]{0};
+    for (size_t i = 0;i < size_; ++i)
+        __tmp[i] = dataptr_[i];
+    delete []dataptr_;
+    dataptr_ = __tmp;
+    capacity_ = size;
 }
 
 template<class T>
