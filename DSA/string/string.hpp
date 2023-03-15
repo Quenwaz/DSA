@@ -18,6 +18,7 @@ namespace dsa::ds
     public:
         int find(const char* input);
         int find(const String& input);
+        int index_KMP(const char* input);
         const char* c_str() const;
     };
     

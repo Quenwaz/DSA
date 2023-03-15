@@ -63,7 +63,6 @@ int String::find(const char* input)
             if (i > 0)
                 i = i - (pos- beg) + 1;
             pos = beg;
-            
         }
     }
 
@@ -77,4 +76,43 @@ int String::find(const char* input)
 int String::find(const String &input)
 {
     return this->find(input.c_str());
+}
+
+
+void get_next(const char* pattern, int next[])
+{
+    int i = 1, j = 0;
+    next[1] = 0;
+    while(pattern[i] != '\0')
+    {
+        if (j == 0 || pattern[i]  == pattern[j]){
+            ++i;
+            ++j;
+            next[i] = j;
+        }else
+            j = next[j];
+    }
+}
+
+int String::index_KMP(const char* input)
+{
+    int i = 0, j = 1;
+    decltype(input) beg = input;
+    size_t len = strlen(input);
+    int next[len + 1] ={0};
+    get_next(input, next);
+    for(;(*input) != '\0' && i != size_; )
+    {
+        if (j == 0 || (*input) == dataptr_[i]){
+            ++i;
+            ++input;
+        }else 
+            input = beg + next[input - beg];
+    }
+
+    if (*(input) != '\0'){
+        return -1; 
+    }
+
+    return i - (input- beg);
 }

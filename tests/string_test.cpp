@@ -7,4 +7,5 @@ TEST(test_vector, t1)
 
     ASSERT_TRUE(test1.size() == 17);
     ASSERT_TRUE(test1.find("jfeif") == 6);
+    ASSERT_TRUE(test1.index_KMP("jfeif") == 6);
 }
