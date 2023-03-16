@@ -11,6 +11,7 @@ namespace dsa::ds
         String(/* args */);
         String(const String& inst);
         String& operator=(const String& inst);
+        String& operator=(const char* inst);
         explicit String(const char* psz);
         String(size_t size, const char& val);
         ~String();

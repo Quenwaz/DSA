@@ -9,7 +9,16 @@ String::String(/* args */)
 
 String::String(const String& inst)
 {
-    *this = String(inst.c_str());
+    *this = this->operator=(inst.c_str());
+}
+
+String& String::operator=(const char* inst)
+{
+    if (dataptr_ != nullptr){
+        delete []dataptr_;
+    }
+
+    *this = String(inst);
 }
 
 String& String::operator=(const String& inst)
@@ -17,9 +26,7 @@ String& String::operator=(const String& inst)
     if (&inst == this){
         return *this;
     }
-
-    this->reserve(inst.size());
-    size_ = inst.size();
+    this->resize(inst.size());
     memcpy(dataptr_, inst.dataptr_, size_);
     return *this;
 }
@@ -82,29 +89,30 @@ int String::find(const String &input)
 void get_next(const char* pattern, int next[])
 {
     int i = 1, j = 0;
-    next[1] = 0;
+    next[0] = 0;
     while(pattern[i] != '\0')
     {
-        if (j == 0 || pattern[i]  == pattern[j]){
-            ++i;
+        if (pattern[i]  == pattern[j]){
             ++j;
             next[i] = j;
-        }else
+        }else{
+            next[i] = 0;
             j = next[j];
+        }
+        ++i;
     }
 }
 
 int String::index_KMP(const char* input)
 {
-    int i = 0, j = 1;
+    int i = 0;
     decltype(input) beg = input;
     size_t len = strlen(input);
-    int next[len + 1] ={0};
+    int next[len] ={0};
     get_next(input, next);
-    for(;(*input) != '\0' && i != size_; )
+    for(;(*input) != '\0' && i != size_; ++i)
     {
-        if (j == 0 || (*input) == dataptr_[i]){
-            ++i;
+        if ((*input) == dataptr_[i]){
             ++input;
         }else 
             input = beg + next[input - beg];
