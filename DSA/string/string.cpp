@@ -15,7 +15,7 @@ String::String(const String& inst)
 String& String::operator=(const char* inst)
 {
     if (dataptr_ != nullptr){
-        delete []dataptr_;
+        this->clear();
     }
 
     *this = String(inst);
@@ -26,6 +26,7 @@ String& String::operator=(const String& inst)
     if (&inst == this){
         return *this;
     }
+
     this->resize(inst.size());
     memcpy(dataptr_, inst.dataptr_, size_);
     return *this;
@@ -110,12 +111,18 @@ int String::index_KMP(const char* input)
     size_t len = strlen(input);
     int next[len] ={0};
     get_next(input, next);
-    for(;(*input) != '\0' && i != size_; ++i)
+    int flag = 0;
+    for(;(*input) != '\0' && i != size_; )
     {
-        if ((*input) == dataptr_[i]){
+        if (flag == 1 || (*input) == dataptr_[i]){
             ++input;
-        }else 
+            ++i;
+            flag = 0;
+        }else{
+            flag = 1;
             input = beg + next[input - beg];
+        }
+            
     }
 
     if (*(input) != '\0'){
