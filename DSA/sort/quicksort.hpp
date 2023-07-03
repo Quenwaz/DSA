@@ -1,8 +1,10 @@
 #ifndef __quick_sort_included_
 #define __quick_sort_included_
 #include <algorithm>
-
-
+#ifdef DEBUG
+#include <iostream>
+#include <iterator>
+#endif
 namespace dsa::alg::sort
 {
 	namespace  __internal
@@ -10,30 +12,46 @@ namespace dsa::alg::sort
 		template <typename ForwardIterator>
 		ForwardIterator __quick_sort(ForwardIterator beg, ForwardIterator end)
 		{
-			if (std::distance(beg, end) < 2)
-			{
+			const auto size = std::distance(beg, end);
+			if(size < 2 ){
 				return beg;
 			}
-			
-			ForwardIterator pivot = beg;
-			for (ForwardIterator pos = beg; pos != end; ++pos)
+#ifdef DEBUG
+			std::copy(beg, end, std::ostream_iterator<typename ForwardIterator::value_type>(std::clog, " "));
+			std::clog << std::endl;
+#endif
+			ForwardIterator p = beg;
+			ForwardIterator left = beg + 1;
+			ForwardIterator right = beg + size -1;
+
+			for(;left <= right;)
 			{
-				if (*pivot > *pos)
+				if (left <= right)
 				{
-					if (std::distance(pivot, pos) > 1)
-					{
-						std::rotate(pivot, pos, pos + 1);
-						++pivot;
+					if ((*left) < (*p)){
+						++left;
 					}
-					else
-					{
-						std::iter_swap(pos, pivot);
-						pivot = pos;
+
+					if ((*right) >= (*p)){
+						--right;
 					}
 				}
 
+				if (left < right){
+					std::iter_swap(left, right);
+				}
+#ifdef DEBUG
+				std::copy(beg, end, std::ostream_iterator<typename ForwardIterator::value_type>(std::clog, " "));
+				std::clog << std::endl;
+#endif
 			}
-			return pivot;
+
+			std::iter_swap(beg, right);
+#ifdef DEBUG
+			std::copy(beg, end, std::ostream_iterator<typename ForwardIterator::value_type>(std::clog, " "));
+			std::clog << std::endl;
+#endif
+			return right;
 		}
 	}
 

@@ -91,6 +91,27 @@ private:
     const bool m_bAutoPop;
 };
 
-}
+
+template<typename T>
+class QueueCircleLink
+{
+public:
+    struct LinkNode{
+        T data;
+        LinkNode* next;
+    };
+
+    QueueCircleLink();
+public:
+    void enque(const T& data);
+    bool deque(T& data);
+private:
+    size_t size_;
+    LinkNode* rear_;
+};
+
+
+
+}  // namespace queue
 }
 #endif // _queue_data_struacture_h_

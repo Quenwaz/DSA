@@ -108,26 +108,26 @@ int String::index_KMP(const char* input)
 {
     int i = 0;
     decltype(input) beg = input;
-    size_t len = strlen(input);
-    int next[len] ={0};
-    get_next(input, next);
-    int flag = 0;
-    for(;(*input) != '\0' && i != size_; )
-    {
-        if (flag == 1 || (*input) == dataptr_[i]){
-            ++input;
-            ++i;
-            flag = 0;
-        }else{
-            flag = 1;
-            input = beg + next[input - beg];
-        }
+    // size_t len = strlen(input);
+    // int next[len] ={0};
+    // get_next(input, next);
+    // int flag = 0;
+    // for(;(*input) != '\0' && i != size_; )
+    // {
+    //     if (flag == 1 || (*input) == dataptr_[i]){
+    //         ++input;
+    //         ++i;
+    //         flag = 0;
+    //     }else{
+    //         flag = 1;
+    //         input = beg + next[input - beg];
+    //     }
             
-    }
+    // }
 
-    if (*(input) != '\0'){
-        return -1; 
-    }
+    // if (*(input) != '\0'){
+    //     return -1; 
+    // }
 
     return i - (input- beg);
 }
