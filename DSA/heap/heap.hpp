@@ -324,6 +324,7 @@ void CMinHeap::insert(const DataType& val)
     ++m_size;
 }
 
+
 bool CMinHeap::removeat(size_t npos, DataType& val)
 {
 	if (npos >= m_size)

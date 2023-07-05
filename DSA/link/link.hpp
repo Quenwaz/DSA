@@ -1,6 +1,7 @@
 #ifndef _h_link_incluede__
 #define _h_link_incluede__
 #include <stddef.h>
+#include <queue>
 
 namespace dsa::ds{
 template <typename _Tp>
@@ -22,6 +23,7 @@ public:
     void pop_back();
     void push_back(const _Tp& val);
     void reverse();
+    void rearrangement();
 private:
     LinkNode<_Tp>* head_;
     LinkNode<_Tp>* tail_;
@@ -94,7 +96,28 @@ template <class _Tp> void Link<_Tp>::push_back(const _Tp& val)
     ++this->size_;
 }
 
-template <class _Tp> void Link<_Tp>::reverse()
+template <class _Tp> void Link<_Tp>::rearrangement()
+{
+    std::queue<LinkNode<_Tp>*> queue_odd;
+    queue_odd.push(this->head_);
+    LinkNode<_Tp>* odd = this->head_;
+    LinkNode<_Tp>* even = odd->next;
+    for (auto even_pos = even;even_pos != nullptr && even_pos->next != nullptr;)
+    {
+        odd->next = even_pos->next;
+        auto previous_odd = odd;
+        odd = odd->next;
+        odd->previous = previous_odd;
+        even_pos->next = odd->next;
+        auto previous_even = even_pos;
+        even_pos = even_pos->next;
+        even_pos->previous = previous_even;
+    }
+    even->previous = odd;
+    odd->next = even;
+}
+
+template <class _Tp> void Link<_Tp>::reverse()                                                           
 {
     LinkNode<_Tp>* nnext = nullptr;
     for (LinkNode<_Tp>* curpos = this->head_;curpos != nullptr; )

@@ -1,5 +1,8 @@
 #include "qTest/qTest.hpp"
 #include "DSA/link/link.hpp"
+#include <unordered_map>
+
+
 
 TEST(test_link, t1)
 {
@@ -15,4 +18,6 @@ TEST(test_link, t1)
     ASSERT_TRUE(link.back() == 4);
     link.reverse();
     ASSERT_TRUE(link.back() == 1);
+
+    link.rearrangement();
 }
