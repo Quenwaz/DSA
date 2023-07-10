@@ -8,6 +8,7 @@ TEST(test_single_linked_list, t1)
 {
     dsa::ds::Link<int> link;
     link.insert(0,9);
+    ASSERT_TRUE(link[0]->data == 9);
     ASSERT_EQ(link.front(), 9);
     ASSERT_EQ(link.back(), 9);
     link.push_back(1);
@@ -19,12 +20,18 @@ TEST(test_single_linked_list, t1)
     link.push_back(3);
     link.push_back(4);
     link.push_back(5);
+    ASSERT_TRUE(link[5]->data == 4);
     ASSERT_TRUE(link.size() == 7);
     link.pop_back();
+
+    auto node_5 = link[5];
+    ASSERT_TRUE(node_5->data == 4);
     ASSERT_TRUE(link.size() == 6);
     ASSERT_TRUE(link.back() == 4);
+    link.remove(node_5);
+    ASSERT_TRUE(link.back() == 3);
+    ASSERT_TRUE(link.size() == 5);
     link.reverse();
     ASSERT_TRUE(link.back() == 9);
-
     link.rearrangement();
 }

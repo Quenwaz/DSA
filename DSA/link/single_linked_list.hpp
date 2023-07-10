@@ -21,9 +21,12 @@ public:
     bool empty() const;
     DataType& front();
     DataType& back();
+
+    LinkNode<DataType>* operator[](size_t idx) const;
     void pop_back();
     void push_back(const DataType& val);
     bool insert(size_t npos, const DataType& val);
+    bool remove(LinkNode<DataType>* node);
     void reverse();
     void rearrangement();
 private:
@@ -64,6 +67,52 @@ template <class DataType> DataType& Link<DataType>::back()
 {
     return this->tail_->data;
 }
+
+
+template <class DataType>
+LinkNode<DataType>* Link<DataType>::operator[](size_t idx) const
+{
+    if (idx >= size_){
+        return nullptr;
+    }
+
+    LinkNode<DataType>* node = this->head_;
+    for (size_t i = 1;i <= idx; ++i)
+    {
+        node = node->next;
+    }
+
+    return node;
+}
+
+template <class DataType> 
+bool Link<DataType>::remove(LinkNode<DataType>* node)
+{
+    if(node == nullptr){
+        return false;
+    }
+
+    if (node->next != nullptr){
+        node->next->previous = node->previous;
+    }
+
+    if (node == this->tail_){
+        this->tail_ = node->previous;
+        this->tail_->next = nullptr;
+    }
+    else
+        node->previous = node->next;
+
+    if(node == this->head_){
+        this->head_ = node->next;
+        this->head_->previous = nullptr;
+    }
+
+    --this->size_;
+    delete node;
+    return true;
+}
+
 
 template <class DataType> void Link<DataType>::pop_back()
 {
@@ -146,13 +195,17 @@ template <class DataType> void Link<DataType>::rearrangement()
     queue_odd.push(this->head_);
     LinkNode<DataType>* odd = this->head_;
     LinkNode<DataType>* even = odd->next;
-    for (auto even_pos = even;even_pos != nullptr && even_pos->next != nullptr;)
+    LinkNode<DataType>* even_pos = even;
+    for (;even_pos != nullptr && even_pos->next != nullptr;)
     {
         odd->next = even_pos->next;
         auto previous_odd = odd;
         odd = odd->next;
         odd->previous = previous_odd;
         even_pos->next = odd->next;
+        if (even_pos->next == nullptr){
+            break;
+        }
         auto previous_even = even_pos;
         even_pos = even_pos->next;
         if (even_pos != nullptr)
@@ -160,6 +213,7 @@ template <class DataType> void Link<DataType>::rearrangement()
     }
     even->previous = odd;
     odd->next = even;
+    this->tail_ = even_pos;
 }
 
 template <class DataType> void Link<DataType>::reverse()                                                           
