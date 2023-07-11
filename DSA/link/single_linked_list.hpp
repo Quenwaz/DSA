@@ -25,6 +25,8 @@ public:
     LinkNode<DataType>* operator[](size_t idx) const;
     void pop_back();
     void push_back(const DataType& val);
+    void pop_front();
+    void push_front(const DataType& val);
     bool insert(size_t npos, const DataType& val);
     bool remove(LinkNode<DataType>* node);
     void reverse();
@@ -98,14 +100,16 @@ bool Link<DataType>::remove(LinkNode<DataType>* node)
 
     if (node == this->tail_){
         this->tail_ = node->previous;
-        this->tail_->next = nullptr;
+        if(this->tail_!= nullptr)
+            this->tail_->next = nullptr;
     }
     else
         node->previous = node->next;
 
     if(node == this->head_){
         this->head_ = node->next;
-        this->head_->previous = nullptr;
+        if(this->head_ != nullptr)
+            this->head_->previous = nullptr;
     }
 
     --this->size_;
@@ -147,6 +151,45 @@ template <class DataType> void Link<DataType>::push_back(const DataType& val)
     else{
         this->tail_->next = node;
         this->tail_ = node;
+    }
+    ++this->size_;
+}
+
+template <class DataType> 
+void Link<DataType>::pop_front()
+{
+    if (this->empty()){
+        return;
+    }
+
+    LinkNode<DataType>* curnode = this->head_;
+    if (this->head_->next == nullptr){
+        this->head_ = nullptr;
+        this->tail_ = nullptr;
+    }else{
+        this->head_->next->previous = nullptr;
+        this->head_ = this->head_->next;
+    }
+
+    --this->size_;
+    delete curnode;
+}
+
+template <class DataType> 
+void Link<DataType>::push_front(const DataType& val)
+{
+    LinkNode<DataType>* node = new LinkNode<DataType>();
+    node->next = this->head_;
+    node->data = val;
+    node->previous = nullptr;
+
+    if (this->head_ == nullptr){
+        this->head_ = node;
+        this->tail_ = this->head_;
+    }
+    else{
+        this->head_->previous = node;
+        this->head_ = node;
     }
     ++this->size_;
 }

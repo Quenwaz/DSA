@@ -53,8 +53,8 @@ qtest::TestInfo* const qtest::internal::MakeRegisterTestInfo(const char* testcas
 
 bool run_test()
 {
-    auto testinfo = global_variable::gTestInfos.back();
-    global_variable::gTestInfos.pop_back();
+    auto testinfo = global_variable::gTestInfos.front();
+    global_variable::gTestInfos.pop_front();
     return testinfo->Run();
 }
 
