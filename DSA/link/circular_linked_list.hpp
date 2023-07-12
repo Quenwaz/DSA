@@ -15,10 +15,11 @@ class CircledList
 {
 
 public:
-    CircledList(/* args */);
+    explicit CircledList(size_t capacity=0);
     ~CircledList();
     size_t size() const;
     bool empty() const;
+    bool isfull() const;
     LinkNode<DataType>* top();
 
     void pop();
@@ -26,12 +27,13 @@ public:
 private:
     LinkNode<DataType>* tail_;
     size_t size_;
+    size_t capacity_;
 };
 
 
 
-template <class DataType> CircledList<DataType>::CircledList()
-    : tail_(nullptr), size_(0)
+template <class DataType> CircledList<DataType>::CircledList(size_t capacity)
+    : tail_(nullptr), size_(0),capacity_(capacity)
 {
 }
 
@@ -56,6 +58,12 @@ bool CircledList<DataType>::empty() const
 }
 
 template <class DataType> 
+bool CircledList<DataType>::isfull() const
+{
+    return (capacity_ > 0 && capacity_ == size_);
+}
+
+template <class DataType> 
 LinkNode<DataType>* CircledList<DataType>::top()
 {
     if (this->tail_ == nullptr){
@@ -72,16 +80,12 @@ void CircledList<DataType>::pop()
     }
 
     auto head = this->tail_->next;
-    if (head == nullptr){
-        head = this->tail_;
-    }
     this->tail_->next = head->next;
-    delete head;
-    --size_;
-
-    if(size_ == 0){
+    if(head == this->tail_){
         this->tail_ = nullptr;
     }
+    --size_;
+    delete head;
 }
 
 template <class DataType> 
